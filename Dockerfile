@@ -6,22 +6,21 @@ ENV LANG="C.UTF-8"
 
 # 拷贝项目文件到容器内的 app/server 目录下
 WORKDIR /app/server
-COPY backend /app/server
-COPY frontend /app/server
 COPY package.json /app/server
 COPY package-lock.json /app/server
+COPY frontend/package.json /app/server/frontend
+COPY frontend/package-lock.json /app/server/frontend
 COPY .env /app/server
 
 # 设置 npm 镜像源
 RUN npm config set registry https://mirrors.cloud.tencent.com/npm/
 
 
-RUN npm install
-WORKDIR /app/server/frontend
-RUN ls -la /app/server/frontend
-RUN npm install
 RUN npm run build
 
+
+COPY backend /app/server
+COPY frontend /app/server
 # 对外暴露5000端口
 EXPOSE 5000
 
