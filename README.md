@@ -117,6 +117,7 @@ cd ecommerce-mern
 touch .env
 nano .env
 # ... ctrl+x y
+# shell: scp env_path username@ip:/home/ubuntu/mern-project/ecommerce-mern
 
 cd ecommerce-mern
 docker-compose up -d

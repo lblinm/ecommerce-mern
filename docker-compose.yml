@@ -59,7 +59,8 @@ services:
       - 80:80
       - 443:443
     restart: always
-    environment: TZ=Asia/Shanghai
+    environment:
+      TZ: Asia/Shanghai
     depends_on:
       - server
     networks:
