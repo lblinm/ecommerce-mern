@@ -12,6 +12,9 @@ COPY package.json /app/server
 COPY package-lock.json /app/server
 COPY .env /app/server/
 
+# 设置 npm 镜像源
+RUN npm config set registry https://mirrors.cloud.tencent.com/npm/
+
 # 构建
 RUN npm run build
 

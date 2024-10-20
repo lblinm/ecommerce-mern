@@ -104,6 +104,15 @@ cat ~/.ssh/id_rsa.pub
 # 验证
 ssh -T git@github.com
 
+
+# 使用腾讯云 Docker 镜像源
+sudo vim /etc/docker/daemon.json
+# {
+#    "registry-mirrors": [
+#    "https://mirror.ccs.tencentyun.com"
+#   ]
+# }
+sudo systemctl restart docker
 ```
 
 ### 3. 运行
