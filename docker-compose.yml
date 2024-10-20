@@ -1,10 +1,17 @@
+version: '3'
+
+# 自定义网络
+networks:
+  mynet:
+    driver: bridge
+
 services:
   mongo:
     image: mongo:latest
     container_name: mongo
     restart: always
     volumes:
-      - /mongo-data:/data/db
+      - ./db/mongo-data:/data/db
     environment:
       TZ: Asia/Shanghai
       MONGO_INITDB_ROOT_USERNAME: root
@@ -12,19 +19,48 @@ services:
       MONGO_INITDB_DATABASE: my-database
     ports:
       - '27017:27017'
+    networks:
+      - mynet
 
   redis:
     image: redis:latest
     container_name: redis
     restart: always
     volumes:
-      - /redis-data:/data
+      - ./db/redis-data:/data
     environment:
       TZ: Asia/Shanghai
     command: redis-server --requirepass root123
     ports:
       - '6379:6379'
+    networks:
+      - mynet
 
-volumes:
-  mongo_data:
-  redis_data:
+  server:
+    build:
+      context: .
+    container_name: server
+    ports:
+      - 5000:5000
+    environment:
+      TZ: Asia/Shanghai
+    depends_on:
+      - mongo
+      - redis
+    networks:
+      - mynet
+
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+    environment: TZ=Asia/Shanghai
+    depends_on:
+      - server
+    networks:
+      - mynet
