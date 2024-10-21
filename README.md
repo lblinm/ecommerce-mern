@@ -19,43 +19,42 @@
   - 商品目录的 管理（包括最基本的添加，删除，修改等操作）
   - 订单管理、以及销售统计报表
 
-## 配置环境变量
+## 本地运行
+
+### 1. 配置数据库
+
+安装 mongodb 和 redis
 
 项目根目录下创建`.env`文件
 
+### 2. 配置环境变量
+
 ```bash
 PORT=5000
-MONGO_URI=your_mongo_uri
 
-UPSTASH_REDIS_URL=your_redis_url
+MONGO_URI=mongodb://name:pwd@net:port/dbname?authSource=admin
+REDIS_URI=redis://:pwd@net:port/0
 
-ACCESS_TOKEN_SECRET=your_access_token_secret
-REFRESH_TOKEN_SECRET=your_refresh_token_secret
+ADMIN_PASSWORD=
 
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
+ACCESS_TOKEN_SECRET=
+REFRESH_TOKEN_SECRET=
 
-STRIPE_SECRET_KEY=your_stripe_secret_key
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+
+STRIPE_SECRET_KEY=
+
 CLIENT_URL=http://localhost:5173
 NODE_ENV=development
 ```
 
-## 配置数据库
-
-使用 docker 安装 mongodb 和 redis
+### 3. 安装与运行
 
 ```shell
-docker-compose up -d
-```
-
-## 安装与运行
-
-```shell
-# 安装项目依赖包
 npm i
 
-# 启动服务
 npm run dev
 ```
 
@@ -122,7 +121,7 @@ mkdir mern-project && cd mern-project
 git clone git@github.com:lblinm/ecommerce-mern.git
 cd ecommerce-mern
 
-# 创建 env 文件
+# 创建 env 文件, 改MONGO_URI REDIS_URI NODE_ENV
 touch .env
 nano .env
 # ... ctrl+x y
