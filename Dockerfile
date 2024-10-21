@@ -19,8 +19,8 @@ RUN npm config set registry https://mirrors.cloud.tencent.com/npm/
 RUN npm run build
 
 
-COPY backend /app/server
-COPY frontend /app/server
+COPY backend/ /app/server/backend
+COPY frontend/ /app/server/frontend
 # 对外暴露5000端口
 EXPOSE 5000
 
