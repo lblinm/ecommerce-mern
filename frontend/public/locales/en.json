@@ -81,5 +81,7 @@
   "coupon_failed": "Failed to apply coupon",
   "coupon_removed": "Coupon removed",
   "an_error_occurred": "An error occurred",
-  "error_fetching_coupon": "Error fetching coupon:"
+  "error_fetching_coupon": "Error fetching coupon:",
+  "search": "Search",
+  "search_tip": "Search for products' name or description"
 }

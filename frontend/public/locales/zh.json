@@ -81,5 +81,7 @@
   "coupon_failed": "代金卷使用失败",
   "coupon_removed": "代金卷已移除",
   "an_error_occurred": "发生了某个错误",
-  "error_fetching_coupon": "使用代金卷发生错误"
+  "error_fetching_coupon": "使用代金卷发生错误",
+  "search": "搜索",
+  "search_tip": "搜索商品名称或描述"
 }

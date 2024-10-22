@@ -4,6 +4,7 @@ import { useUserStore } from '../stores/useUserStore'
 import { useCartStore } from '../stores/useCartStore'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from './LanguageSwitcher'
+import SearchInput from './SearchInput'
 
 const Navbar = () => {
   const { t } = useTranslation()
@@ -20,7 +21,9 @@ const Navbar = () => {
             className="hidden sm:flex text-2xl font-bold text-emerald-400 items-center space-x-2">
             Ecommerce
           </Link>
-
+          <div className="flex-grow mx-10">
+            <SearchInput />
+          </div>
           <nav className="flex flex-wrap items-center gap-3">
             <LanguageSwitcher />
             <Link
