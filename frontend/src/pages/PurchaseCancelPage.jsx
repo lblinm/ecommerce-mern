@@ -1,9 +1,7 @@
 import { XCircle, ArrowLeft } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
 const PurchaseCancelPage = () => {
-  const { t } = useTranslation()
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <motion.div
@@ -16,14 +14,14 @@ const PurchaseCancelPage = () => {
             <XCircle className="text-red-500 w-16 h-16 mb-4" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-center text-red-500 mb-2">
-            {t('purchase_cancelled')}
+            订单已取消
           </h1>
           <p className="text-gray-300 text-center mb-6">
-            {t('cancelled_desc')}
+            您的订单已取消，未收取您的费用。
           </p>
           <div className="bg-gray-700 rounded-lg p-4 mb-6">
             <p className="text-sm text-gray-400 text-center">
-              {t('cancelled_contact_us')}
+              如果您在结账过程中遇到任何问题，请随时联系我们。
             </p>
           </div>
           <div className="space-y-4">
@@ -31,7 +29,7 @@ const PurchaseCancelPage = () => {
               to={'/'}
               className="w-full bg-gray-700 hover:bg-gray-600 text-gray-300 font-bold py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center">
               <ArrowLeft className="mr-2" size={18} />
-              {t('continue_shopping')}
+              继续购物
             </Link>
           </div>
         </div>

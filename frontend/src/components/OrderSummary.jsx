@@ -1,16 +1,10 @@
 import { motion } from 'framer-motion'
 import { useCartStore } from '../stores/useCartStore'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { MoveRight } from 'lucide-react'
-import { loadStripe } from '@stripe/stripe-js'
 import axios from '../lib/axios'
-import { useTranslation } from 'react-i18next'
-const stripePromise = loadStripe(
-  'pk_test_51Q262oRoRPVrlue5x7Hq2fHKOMJVFP3ZdzQOEaZ7A7OHo5NNJCSyyB4QfJmyHhAL1l92fNCRmP6Gi2vj8hH8AnV700d8j37agO'
-)
 
 const OrderSummary = () => {
-  const { t } = useTranslation()
   const { total, subtotal, coupon, isCouponApplied, cart } = useCartStore()
 
   const savings = subtotal - total
@@ -18,20 +12,18 @@ const OrderSummary = () => {
   const formattedTotal = total.toFixed(2)
   const formattedSavings = savings.toFixed(2)
 
+  const navigate = useNavigate()
+
   const handlePayment = async () => {
-    const stripe = await stripePromise
     const res = await axios.post('/payments/create-checkout-session', {
-      products: cart,
+      cart: cart,
       couponCode: coupon ? coupon.code : null,
     })
-
-    const session = res.data
-    const result = await stripe.redirectToCheckout({
-      sessionId: session.id,
-    })
-
-    if (result.error) {
-      console.error('Error:', result.error)
+    const couponId = res.data.coupon
+    if (couponId) {
+      navigate(`/payment?orderId=${res.data.orderId}&couponId=${couponId}`)
+    } else {
+      navigate(`/payment?orderId=${res.data.orderId}`)
     }
   }
 
@@ -41,29 +33,24 @@ const OrderSummary = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}>
-      <p className="text-xl font-semibold text-emerald-400">
-        {t('order_summary')}
-      </p>
+      <p className="text-xl font-semibold text-emerald-400">订单</p>
 
       <div className="space-y-4">
         <div className="space-y-2">
           <dl className="flex items-center justify-between gap-4">
-            <dt className="text-base font-normal text-gray-300">
-              {t('original_price')}
-            </dt>
+            <dt className="text-base font-normal text-gray-300">原价</dt>
             <dd className="text-base font-medium text-white">
-              {t('currency_symbol')}
-              {formattedSubtotal}
+              ￥{formattedSubtotal}
             </dd>
           </dl>
 
           {savings > 0 && (
             <dl className="flex items-center justify-between gap-4">
               <dt className="text-base font-normal text-gray-300">
-                {t('saving')}
+                已为您节省
               </dt>
               <dd className="text-base font-medium text-emerald-400">
-                -{currency_symbol}
+                -￥
                 {formattedSavings}
               </dd>
             </dl>
@@ -72,7 +59,7 @@ const OrderSummary = () => {
           {coupon && isCouponApplied && (
             <dl className="flex items-center justify-between gap-4">
               <dt className="text-base font-normal text-gray-300">
-                Coupon ({coupon.code})
+                优惠券 ({coupon.code})
               </dt>
               <dd className="text-base font-medium text-emerald-400">
                 -{coupon.discountPercentage}%
@@ -80,7 +67,7 @@ const OrderSummary = () => {
             </dl>
           )}
           <dl className="flex items-center justify-between gap-4 border-t border-gray-600 pt-2">
-            <dt className="text-base font-bold text-white">{t('total')}</dt>
+            <dt className="text-base font-bold text-white">总价</dt>
             <dd className="text-base font-bold text-emerald-400">
               ${formattedTotal}
             </dd>
@@ -93,16 +80,16 @@ const OrderSummary = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={handlePayment}>
-          {t('proceed_to_checkout')}
+          结算
         </motion.button>
         {/* </Link> */}
 
         <div className="flex items-center justify-center gap-2">
-          <span className="text-sm font-normal text-gray-400">{t('or')}</span>
+          <span className="text-sm font-normal text-gray-400">或</span>
           <Link
             to="/"
             className="inline-flex items-center gap-2 text-sm font-medium text-emerald-400 underline hover:text-emerald-300 hover:no-underline">
-            {t('continue_shopping')}
+            继续购物
             <MoveRight size={16} />
           </Link>
         </div>

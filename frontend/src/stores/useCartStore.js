@@ -1,7 +1,6 @@
 import { create } from "zustand"
 import axios from "../lib/axios"
 import { toast } from "react-hot-toast"
-import { t } from 'i18next'
 export const useCartStore = create((set, get) => ({
 	cart: [],
 	coupon: null,
@@ -14,7 +13,7 @@ export const useCartStore = create((set, get) => ({
 			const response = await axios.get("/coupons")
 			set({ coupon: response.data })
 		} catch (error) {
-			console.error(t('error_fetching_coupon'), error)
+			console.error("操作失败", error)
 		}
 	},
 	applyCoupon: async (code) => {
@@ -22,15 +21,15 @@ export const useCartStore = create((set, get) => ({
 			const response = await axios.post("/coupons/validate", { code })
 			set({ coupon: response.data, isCouponApplied: true })
 			get().calculateTotals()
-			toast.success(t('coupon_success'))
+			toast.success('优惠券使用成功')
 		} catch (error) {
-			toast.error(error.response?.data?.message || t('coupon_failed'))
+			toast.error(error.response?.data?.message || '操作失败')
 		}
 	},
 	removeCoupon: () => {
 		set({ coupon: null, isCouponApplied: false })
 		get().calculateTotals()
-		toast.success(t('coupon_removed'))
+		toast.success('已取消使用该优惠券')
 	},
 
 	getCartItems: async () => {
@@ -40,16 +39,21 @@ export const useCartStore = create((set, get) => ({
 			get().calculateTotals()
 		} catch (error) {
 			set({ cart: [] })
-			toast.error(error.response.data.message || t('an_error_occurred'))
+			toast.error(error.response.data.message || '操作失败')
 		}
 	},
 	clearCart: async () => {
-		set({ cart: [], coupon: null, total: 0, subtotal: 0 })
+		try {
+			await axios.delete('/cart')
+			set({ cart: [], coupon: null, total: 0, subtotal: 0 })
+		} catch (error) {
+			toast.error(error.response.data.message || "清空购物车失败")
+		}
 	},
 	addToCart: async (product) => {
 		try {
 			await axios.post("/cart", { productId: product._id })
-			toast.success(t('add_to_cart'))
+			toast.success("已添加到购物车")
 
 			set((prevState) => {
 				const existingItem = prevState.cart.find((item) => item._id === product._id)
@@ -62,7 +66,7 @@ export const useCartStore = create((set, get) => ({
 			})
 			get().calculateTotals()
 		} catch (error) {
-			toast.error(error.response.data.message || t('an_error_occurred'))
+			toast.error(error.response.data.message || "添加到购物车失败")
 		}
 	},
 	removeFromCart: async (productId) => {

@@ -2,12 +2,9 @@ import { ShoppingCart, UserPlus, LogIn, LogOut, Lock } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useUserStore } from '../stores/useUserStore'
 import { useCartStore } from '../stores/useCartStore'
-import { useTranslation } from 'react-i18next'
-import LanguageSwitcher from './LanguageSwitcher'
 import SearchInput from './SearchInput'
 
 const Navbar = () => {
-  const { t } = useTranslation()
   const { user, logout } = useUserStore()
   const isAdmin = user?.role === 'admin'
   const { cart } = useCartStore()
@@ -19,45 +16,52 @@ const Navbar = () => {
           <Link
             to="/"
             className="hidden sm:flex text-2xl font-bold text-emerald-400 items-center space-x-2">
-            Ecommerce
+            易购商城
           </Link>
-          <div className="flex-grow mx-10">
+          <div className="flex-grow mx-8">
             <SearchInput />
           </div>
           <nav className="flex flex-wrap items-center gap-3">
-            <LanguageSwitcher />
             <Link
               to={'/'}
               className="text-gray-300 hover:text-emerald-400 transition duration-300
 					 ease-in-out">
-              {t('home')}
+              主页
             </Link>
             {user && (
-              <Link
-                to={'/cart'}
-                className="relative group text-gray-300 hover:text-emerald-400 transition duration-300 
+              <>
+                <Link
+                  to={'/cart'}
+                  className="relative group text-gray-300 hover:text-emerald-400 transition duration-300 
 							ease-in-out">
-                <ShoppingCart
-                  className="inline-block mr-1 group-hover:text-emerald-400"
-                  size={20}
-                />
-                <span className="hidden sm:inline">{t('cart')}</span>
-                {cart.length > 0 && (
-                  <span
-                    className="absolute -top-2 -left-2 bg-emerald-500 text-white rounded-full px-2 py-0.5 
+                  <ShoppingCart
+                    className="inline-block mr-1 group-hover:text-emerald-400"
+                    size={20}
+                  />
+                  <span className="hidden sm:inline">购物车</span>
+                  {cart.length > 0 && (
+                    <span
+                      className="absolute -top-2 -left-2 bg-emerald-500 text-white rounded-full px-2 py-0.5 
 									text-xs group-hover:bg-emerald-400 transition duration-300 ease-in-out">
-                    {cart.length}
-                  </span>
-                )}
-              </Link>
+                      {cart.length}
+                    </span>
+                  )}
+                </Link>
+                <Link
+                  to={`/orders-history/${user._id}`}
+                  className="text-gray-300 hover:text-emerald-400 transition duration-300
+					 ease-in-out">
+                  历史订单
+                </Link>
+              </>
             )}
             {isAdmin && (
               <Link
-                className="bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-1 rounded-md font-medium
+                className="bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-2 rounded-md font-medium
 								 transition duration-300 ease-in-out flex items-center"
                 to={'/secret-dashboard'}>
                 <Lock className="inline-block mr-1" size={18} />
-                <span className="hidden sm:inline">{t('dashboard')}</span>
+                <span className="hidden sm:inline">后台管理</span>
               </Link>
             )}
 
@@ -67,7 +71,7 @@ const Navbar = () => {
 						rounded-md flex items-center transition duration-300 ease-in-out"
                 onClick={logout}>
                 <LogOut size={18} />
-                <span className="hidden sm:inline ml-2">{t('log_out')}</span>
+                <span className="hidden sm:inline ml-2">登出</span>
               </button>
             ) : (
               <>
@@ -76,14 +80,14 @@ const Navbar = () => {
                   className="bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-4 
 									rounded-md flex items-center transition duration-300 ease-in-out">
                   <UserPlus className="mr-2" size={18} />
-                  {t('sign_up')}
+                  注册
                 </Link>
                 <Link
                   to={'/login'}
                   className="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 
 									rounded-md flex items-center transition duration-300 ease-in-out">
                   <LogIn className="mr-2" size={18} />
-                  {t('log_in')}
+                  登录
                 </Link>
               </>
             )}

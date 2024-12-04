@@ -25,7 +25,7 @@ const SearchResultsPage = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}>
-          Search Results for "{keyword}"
+          "{keyword}" 的搜索结果
         </motion.h1>
 
         <motion.div
@@ -35,7 +35,7 @@ const SearchResultsPage = () => {
           transition={{ duration: 0.8, delay: 0.2 }}>
           {products?.length === 0 && (
             <h2 className="text-3xl font-semibold text-gray-300 text-center col-span-full">
-              No products found
+              抱歉，未找到相关商品
             </h2>
           )}
 

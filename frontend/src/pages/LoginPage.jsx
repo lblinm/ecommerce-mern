@@ -3,9 +3,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { LogIn, Mail, Lock, ArrowRight, Loader } from 'lucide-react'
 import { useUserStore } from '../stores/useUserStore'
-import { useTranslation } from 'react-i18next'
 const LoginPage = () => {
-  const { t } = useTranslation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -25,7 +23,7 @@ const LoginPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-emerald-400">
-          {t('create_your_account')}
+          登录帐号
         </h2>
       </motion.div>
 
@@ -40,7 +38,7 @@ const LoginPage = () => {
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-300">
-                {t('email')}
+                邮箱
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -65,7 +63,7 @@ const LoginPage = () => {
               <label
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-300">
-                {t('password')}
+                密码
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -97,23 +95,23 @@ const LoginPage = () => {
                     className="mr-2 h-5 w-5 animate-spin"
                     aria-hidden="true"
                   />
-                  Loading...
+                  加载中，请稍等...
                 </>
               ) : (
                 <>
                   <LogIn className="mr-2 h-5 w-5" aria-hidden="true" />
-                  {t('log_in')}
+                  登录
                 </>
               )}
             </button>
           </form>
 
           <p className="mt-8 text-center text-sm text-gray-400">
-            {t('not_a_member')}?{' '}
+            没有账户?{' '}
             <Link
               to="/signup"
               className="font-medium text-emerald-400 hover:text-emerald-300">
-              {t('sign_up_now')} <ArrowRight className="inline h-4 w-4" />
+              立即注册 <ArrowRight className="inline h-4 w-4" />
             </Link>
           </p>
         </div>

@@ -1,23 +1,23 @@
-import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+import mongoose from "mongoose"
+import bcrypt from "bcryptjs"
 
 const userSchema = new mongoose.Schema(
 	{
 		name: {
 			type: String,
-			required: [true, "Name is required"],
+			required: [true, "请输入用户名"],
 		},
 		email: {
 			type: String,
-			required: [true, "Email is required"],
+			required: [true, "请输入邮箱地址"],
 			unique: true,
 			lowercase: true,
 			trim: true,
 		},
 		password: {
 			type: String,
-			required: [true, "Password is required"],
-			minlength: [6, "Password must be at least 6 characters long"],
+			required: [true, "请输入密码"],
+			minlength: [6, "密码长度不能少于 6 个字符"],
 		},
 		cartItems: [
 			{
@@ -40,25 +40,25 @@ const userSchema = new mongoose.Schema(
 	{
 		timestamps: true,
 	}
-);
+)
 
 // Pre-save hook to hash password before saving to database
 userSchema.pre("save", async function (next) {
-	if (!this.isModified("password")) return next();
+	if (!this.isModified("password")) return next()
 
 	try {
-		const salt = await bcrypt.genSalt(10);
-		this.password = await bcrypt.hash(this.password, salt);
-		next();
+		const salt = await bcrypt.genSalt(10)
+		this.password = await bcrypt.hash(this.password, salt)
+		next()
 	} catch (error) {
-		next(error);
+		next(error)
 	}
-});
+})
 
 userSchema.methods.comparePassword = async function (password) {
-	return bcrypt.compare(password, this.password);
-};
+	return bcrypt.compare(password, this.password)
+}
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema)
 
-export default User;
+export default User

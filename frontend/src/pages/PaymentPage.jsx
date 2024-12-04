@@ -1,16 +1,22 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 
 const PaymentPage = () => {
   const [paymentMethod, setPaymentMethod] = useState('') // 支付方式: 'card', 'wechat', 'alipay'
   const [cardPassword, setCardPassword] = useState('') // 银行卡密码
-  const [isSuccess, setIsSuccess] = useState(false)
+  const navigate = useNavigate()
+  const queryParams = new URLSearchParams(window.location.search)
+  const orderId = queryParams.get('orderId')
+  const couponId = queryParams.get('couponId')
 
   const handlePayment = (e) => {
     e.preventDefault()
-
-    // 模拟支付成功
-    setIsSuccess(true)
+    if (couponId) {
+      navigate(`/purchase-success?orderId=${orderId}&couponId=${couponId}`)
+    } else {
+      navigate(`/purchase-success?orderId=${orderId}`)
+    }
   }
 
   const renderPaymentForm = () => {
@@ -19,7 +25,7 @@ const PaymentPage = () => {
         return (
           <div>
             <label className="block mb-2 text-sm font-medium text-gray-300">
-              Card Number
+              卡号
             </label>
             <input
               type="text"
@@ -28,11 +34,11 @@ const PaymentPage = () => {
             />
 
             <label className="block mb-2 text-sm font-medium text-gray-300">
-              Card Password
+              密码
             </label>
             <input
               type="password"
-              placeholder="Enter card password"
+              placeholder="输入密码"
               value={cardPassword}
               onChange={(e) => setCardPassword(e.target.value)}
               className="w-full px-3 py-2 text-sm text-gray-900 bg-gray-50 rounded-lg focus:ring-emerald-500 focus:border-emerald-500"
@@ -58,25 +64,23 @@ const PaymentPage = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}>
-      <h2 className="text-2xl font-semibold text-emerald-400">
-        Choose Payment Method
-      </h2>
+      <h2 className="text-2xl font-semibold text-emerald-400">支付</h2>
 
       <form onSubmit={handlePayment}>
         {/* 支付方式选择 */}
         <div className="mb-6">
           <label className="block mb-2 text-sm font-medium text-gray-300">
-            Payment Method
+            支付方式
           </label>
           <select
             value={paymentMethod}
             onChange={(e) => setPaymentMethod(e.target.value)}
             className="w-full px-3 py-2 text-sm text-gray-900 bg-gray-50 rounded-lg focus:ring-emerald-500 focus:border-emerald-500"
             required>
-            <option value="">Select Payment Method</option>
-            <option value="card">Bank Card</option>
-            <option value="wechat">WeChat Pay</option>
-            <option value="alipay">Alipay</option>
+            <option value="">选择支付方式</option>
+            <option value="card">银行卡</option>
+            <option value="wechat">微信支付</option>
+            <option value="alipay">支付宝支付</option>
           </select>
         </div>
 
@@ -85,21 +89,12 @@ const PaymentPage = () => {
 
         <motion.button
           type="submit"
-          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium py-2.5 rounded-lg focus:outline-none focus:ring-4 focus:ring-emerald-300"
+          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium my-10 py-2.5 rounded-lg focus:outline-none focus:ring-4 focus:ring-emerald-300"
           whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}>
-          Pay Now
+          whileTap={{ scale: 0.95 }}
+          onClick={handlePayment}>
+          确定支付
         </motion.button>
-
-        {isSuccess && (
-          <motion.div
-            className="mt-4 text-center text-emerald-400"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}>
-            Payment Successful!
-          </motion.div>
-        )}
       </form>
     </motion.div>
   )

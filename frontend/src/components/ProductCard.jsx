@@ -2,17 +2,14 @@ import toast from 'react-hot-toast'
 import { ShoppingCart } from 'lucide-react'
 import { useUserStore } from '../stores/useUserStore'
 import { useCartStore } from '../stores/useCartStore'
-import { useTranslation } from 'react-i18next'
 const ProductCard = ({ product }) => {
-  const { t } = useTranslation()
   const { user } = useUserStore()
   const { addToCart } = useCartStore()
   const handleAddToCart = () => {
     if (!user) {
-      toast.error('Please login to add products to cart', { id: 'login' })
+      toast.error('请登录后操作', { id: 'login' })
       return
     } else {
-      // add to cart
       addToCart(product)
     }
   }
@@ -28,15 +25,15 @@ const ProductCard = ({ product }) => {
         <div className="absolute inset-0 bg-black bg-opacity-20" />
       </div>
 
-      <div className="mt-4 px-5 pb-5">
+      <div className="mt-auto px-5 pb-5 ">
         <h5 className="text-xl font-semibold tracking-tight text-white">
           {product.name}
         </h5>
+        <p className="text-sm text-gray-300 mt-2">{product.description}</p>
         <div className="mt-2 mb-5 flex items-center justify-between">
           <p>
             <span className="text-3xl font-bold text-emerald-400">
-              {t('currency_symbol')}
-              {product.price}
+              ￥{product.price}
             </span>
           </p>
         </div>
@@ -45,7 +42,7 @@ const ProductCard = ({ product }) => {
 					 text-white hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-300"
           onClick={handleAddToCart}>
           <ShoppingCart size={22} className="mr-2" />
-          {t('add_to_cart')}
+          加入购物车
         </button>
       </div>
     </div>

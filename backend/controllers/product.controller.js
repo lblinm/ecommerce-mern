@@ -91,6 +91,42 @@ export const deleteProduct = async (req, res) => {
 	}
 }
 
+export const updateProduct = async (req, res) => {
+	try {
+		const { name, description, price, category, image } = req.body
+
+		const product = await Product.findById(req.params.id)
+		if (!product) {
+			return res.status(404).json({ message: "Product not found" })
+		}
+		product.name = name || product.name
+		product.description = description || product.description
+		product.price = price || product.price
+		product.category = category || product.category
+
+		if (image && image !== product.image) {
+			const publicId = product.image.split("/").pop().split(".")[0]
+			try {
+				// 删除
+				await cloudinary.uploader.destroy(`products/${publicId}`)
+				// 上传
+				const cloudinaryResponse = await cloudinary.uploader.upload(image, { folder: "products" })
+				product.image = cloudinaryResponse.secure_url
+				console.log("updating image from cloduinary")
+			} catch (error) {
+				console.log("error updating image from cloduinary", error)
+			}
+		}
+
+		const newProduct = await product.save()
+
+		res.status(200).json({ message: "商品更新成功", product: newProduct })
+	} catch (error) {
+		console.log("更新商品出错", error.message)
+		res.status(500).json({ message: "商品更新失败", error: error.message })
+	}
+}
+
 export const getRecommendedProducts = async (req, res) => {
 	try {
 		const products = await Product.aggregate([

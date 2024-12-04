@@ -23,5 +23,5 @@ EXPOSE 5000
 # 安装 pm2 用来做服务器的进程守护
 RUN npm install -g pm2
 
-# 运行 pm2 启动打包之后的项目, pm2在容器中运行需要用 pm2-runtime 命令
-CMD [ "pm2-runtime", "backend/server.js" ]
+# seed data  big运行 pm2 启动打包之后的项目, pm2在容器中运行需要用 pm2-runtime 命令
+CMD node backend/lib/seed.js && pm2-runtime backend/server.js

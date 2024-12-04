@@ -1,9 +1,7 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useCartStore } from '../stores/useCartStore'
-import { useTranslation } from 'react-i18next'
 const GiftCouponCard = () => {
-  const { t } = useTranslation()
   const [userInputCode, setUserInputCode] = useState('')
   const { coupon, isCouponApplied, applyCoupon, getMyCoupon, removeCoupon } =
     useCartStore()
@@ -37,7 +35,7 @@ const GiftCouponCard = () => {
           <label
             htmlFor="voucher"
             className="mb-2 block text-sm font-medium text-gray-300">
-            {t('notice_voucher')}
+            使用优惠券？
           </label>
           <input
             type="text"
@@ -45,7 +43,7 @@ const GiftCouponCard = () => {
             className="block w-full rounded-lg border border-gray-600 bg-gray-700 
             p-2.5 text-sm text-white placeholder-gray-400 focus:border-emerald-500 
             focus:ring-emerald-500"
-            placeholder={t('enter_code')}
+            placeholder="输入折扣码"
             value={userInputCode}
             onChange={(e) => setUserInputCode(e.target.value)}
             required
@@ -58,17 +56,16 @@ const GiftCouponCard = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={handleApplyCoupon}>
-          {t('apply_code')}
+          确定使用
         </motion.button>
       </div>
       {isCouponApplied && coupon && (
         <div className="mt-4">
-          <h3 className="text-lg font-medium text-gray-300">
-            {t('applied_coupon')}
-          </h3>
+          <h3 className="text-lg font-medium text-gray-300">已使用优惠券</h3>
 
           <p className="mt-2 text-sm text-gray-400">
-            {coupon.code} - {coupon.discountPercentage}% {t('off')}
+            {coupon.code} - {'减免'}
+            {coupon.discountPercentage}%
           </p>
 
           <motion.button
@@ -79,18 +76,17 @@ const GiftCouponCard = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleRemoveCoupon}>
-            {t('remove_coupon')}
+            取消使用
           </motion.button>
         </div>
       )}
 
       {coupon && (
         <div className="mt-4">
-          <h3 className="text-lg font-medium text-gray-300">
-            {t('your_available_coupon')}:
-          </h3>
+          <h3 className="text-lg font-medium text-gray-300">可用优惠券:</h3>
           <p className="mt-2 text-sm text-gray-400">
-            {coupon.code} - {coupon.discountPercentage}% {t('off')}
+            {coupon.code} - {'减免 '}
+            {coupon.discountPercentage}%
           </p>
         </div>
       )}

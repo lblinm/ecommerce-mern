@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 
 const orderSchema = new mongoose.Schema(
 	{
@@ -31,14 +31,19 @@ const orderSchema = new mongoose.Schema(
 			required: true,
 			min: 0,
 		},
-		stripeSessionId: {
+		coupon: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Coupon',
+		},
+		payment_status: {
 			type: String,
-			unique: true,
+			enum: ["pending", "Processing", "shipped", "completed", "cancelled"],
+			default: "pending",
 		},
 	},
 	{ timestamps: true }
-);
+)
 
-const Order = mongoose.model("Order", orderSchema);
+const Order = mongoose.model("Order", orderSchema)
 
-export default Order;
+export default Order
