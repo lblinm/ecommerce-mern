@@ -21,13 +21,13 @@ const storeRefreshToken = async (userId, refreshToken) => {
 const setCookies = (res, accessToken, refreshToken) => {
 	res.cookie("accessToken", accessToken, {
 		httpOnly: true, // 防止 XSS
-		secure: process.env.NODE_ENV === "production",
+		secure: false, // process.env.NODE_ENV === "production"
 		sameSite: "strict", // 防止 CSRF
 		maxAge: 15 * 60 * 1000, // 15 分钟
 	})
 	res.cookie("refreshToken", refreshToken, {
 		httpOnly: true, // 防止 XSS
-		secure: process.env.NODE_ENV === "production",
+		secure: false, //process.env.NODE_ENV === "production"
 		sameSite: "strict", // 防止 CSRF
 		maxAge: 7 * 24 * 60 * 60 * 1000, // 7 天
 	})
@@ -122,7 +122,7 @@ export const refreshToken = async (req, res) => {
 
 		res.cookie("accessToken", accessToken, {
 			httpOnly: true,
-			secure: process.env.NODE_ENV === "production",
+			secure: false, // process.env.NODE_ENV === "production"
 			sameSite: "strict",
 			maxAge: 15 * 60 * 1000,
 		})
