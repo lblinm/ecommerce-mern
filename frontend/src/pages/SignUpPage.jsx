@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom'
 import { UserPlus, Mail, Lock, User, ArrowRight, Loader } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useUserStore } from '../stores/useUserStore'
-import { useTranslation } from 'react-i18next'
 const SignUpPage = () => {
-  const { t } = useTranslation()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,7 +26,7 @@ const SignUpPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-emerald-400">
-          {t('create_your_account')}
+          注册帐号
         </h2>
       </motion.div>
 
@@ -43,7 +41,7 @@ const SignUpPage = () => {
               <label
                 htmlFor="name"
                 className="block text-sm font-medium text-gray-300">
-                {t('full_name')}
+                名称
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -68,7 +66,7 @@ const SignUpPage = () => {
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-300">
-                {t('email')}
+                邮箱
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -95,7 +93,7 @@ const SignUpPage = () => {
               <label
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-300">
-                {t('password')}
+                密码
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -120,7 +118,7 @@ const SignUpPage = () => {
               <label
                 htmlFor="confirmPassword"
                 className="block text-sm font-medium text-gray-300">
-                {t('confirm_password')}
+                确认密码
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -157,23 +155,23 @@ const SignUpPage = () => {
                     className="mr-2 h-5 w-5 animate-spin"
                     aria-hidden="true"
                   />
-                  Loading...
+                  加载中...
                 </>
               ) : (
                 <>
                   <UserPlus className="mr-2 h-5 w-5" aria-hidden="true" />
-                  {t('注册')}
+                  注册
                 </>
               )}
             </button>
           </form>
 
           <p className="mt-8 text-center text-sm text-gray-400">
-            {t('already_have_account')}?{' '}
+            已有账户??{' '}
             <Link
               to="/login"
               className="font-medium text-emerald-400 hover:text-emerald-300">
-              {t('login_here')} <ArrowRight className="inline h-4 w-4" />
+              立即登录 <ArrowRight className="inline h-4 w-4" />
             </Link>
           </p>
         </div>

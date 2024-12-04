@@ -12,9 +12,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts'
-import { useTranslation } from 'react-i18next'
+
 const AnalyticsTab = () => {
-  const { t } = useTranslation()
   const [analyticsData, setAnalyticsData] = useState({
     users: 0,
     products: 0,
@@ -41,35 +40,33 @@ const AnalyticsTab = () => {
   }, [])
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>加载中，请稍等...</div>
   }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <AnalyticsCard
-          title={t('total_user')}
+          title="用户总数"
           value={analyticsData.users.toLocaleString()}
           icon={Users}
           color="from-emerald-500 to-teal-700"
         />
         <AnalyticsCard
-          title={t('total_products')}
+          title="商品总数"
           value={analyticsData.products.toLocaleString()}
           icon={Package}
           color="from-emerald-500 to-green-700"
         />
         <AnalyticsCard
-          title={t('total_sales')}
+          title="订单总数"
           value={analyticsData.totalSales.toLocaleString()}
           icon={ShoppingCart}
           color="from-emerald-500 to-cyan-700"
         />
         <AnalyticsCard
-          title={t('total_revenue')}
-          value={`${
-            t('currency_symbol') + analyticsData.totalRevenue.toLocaleString()
-          }`}
+          title="收入总数"
+          value={'￥ ' + analyticsData.totalRevenue.toLocaleString()}
           icon={DollarSign}
           color="from-emerald-500 to-lime-700"
         />
@@ -93,7 +90,7 @@ const AnalyticsTab = () => {
               dataKey="sales"
               stroke="#10B981"
               activeDot={{ r: 8 }}
-              name={t('sales')}
+              name="订单"
             />
             <Line
               yAxisId="right"
@@ -101,7 +98,7 @@ const AnalyticsTab = () => {
               dataKey="revenue"
               stroke="#3B82F6"
               activeDot={{ r: 8 }}
-              name={t('revenue')}
+              name="收入"
             />
           </LineChart>
         </ResponsiveContainer>

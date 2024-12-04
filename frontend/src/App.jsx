@@ -17,6 +17,7 @@ import PurchaseSuccessPage from './pages/PurchaseSuccessPage'
 import PurchaseCancelPage from './pages/PurchaseCancelPage'
 import PaymentPage from './pages/PaymentPage'
 import SearchResultsPage from './pages/SearchResultPage'
+import OrdersHistoryPage from './pages/OrdersHistoryPage'
 
 function App() {
   const { user, checkAuth, checkingAuth } = useUserStore()
@@ -67,6 +68,10 @@ function App() {
             element={user ? <CartPage /> : <Navigate to="/login" />}
           />
           <Route
+            path="/orders-history/:userId"
+            element={user ? <OrdersHistoryPage /> : <Navigate to="/login" />}
+          />
+          <Route
             path="/purchase-success"
             element={user ? <PurchaseSuccessPage /> : <Navigate to="/login" />}
           />
@@ -75,10 +80,10 @@ function App() {
             element={user ? <PurchaseCancelPage /> : <Navigate to="/login" />}
           />
 
-          {/* <Route
+          <Route
             path="/payment"
             element={user ? <PaymentPage /> : <Navigate to="/login" />}
-          /> */}
+          />
         </Routes>
       </div>
       <Toaster />

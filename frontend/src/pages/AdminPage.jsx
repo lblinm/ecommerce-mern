@@ -1,22 +1,29 @@
-import { BarChart, PlusCircle, ShoppingBasket } from 'lucide-react'
+import {
+  BarChart,
+  ClipboardPen,
+  PlusCircle,
+  ShoppingBasket,
+  Users,
+} from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 
 import AnalyticsTab from '../components/AnalyticsTab'
 import CreateProductForm from '../components/CreateProductForm'
 import ProductsList from '../components/ProductsList'
+import OrdersManage from '../components/OrdersManage'
+import UsersManage from '../components/UsersManage'
 import { useProductStore } from '../stores/useProductStore'
-import { useTranslation } from 'react-i18next'
-
 const tabs = [
-  { id: 'create', label: 'create_product', icon: PlusCircle },
-  { id: 'products', label: 'products', icon: ShoppingBasket },
-  { id: 'analytics', label: 'analytics', icon: BarChart },
+  { id: 'users', label: '客户管理', icon: Users },
+  { id: 'create', label: '创建商品', icon: PlusCircle },
+  { id: 'products', label: '商品管理', icon: ShoppingBasket },
+  { id: 'orders', label: '订单管理', icon: ClipboardPen },
+  { id: 'analytics', label: '销售统计', icon: BarChart },
 ]
 
 const AdminPage = () => {
-  const { t } = useTranslation()
-  const [activeTab, setActiveTab] = useState('create')
+  const [activeTab, setActiveTab] = useState('users')
   const { fetchAllProducts } = useProductStore()
 
   useEffect(() => {
@@ -31,7 +38,7 @@ const AdminPage = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}>
-          {t('admin_dashboard')}
+          后台管理
         </motion.h1>
 
         <div className="flex justify-center mb-8">
@@ -45,12 +52,14 @@ const AdminPage = () => {
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
               }`}>
               <tab.icon className="mr-2 h-5 w-5" />
-              {t(tab.label)}
+              {tab.label}
             </button>
           ))}
         </div>
+        {activeTab === 'users' && <UsersManage />}
         {activeTab === 'create' && <CreateProductForm />}
         {activeTab === 'products' && <ProductsList />}
+        {activeTab === 'orders' && <OrdersManage />}
         {activeTab === 'analytics' && <AnalyticsTab />}
       </div>
     </div>

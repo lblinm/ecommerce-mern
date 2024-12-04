@@ -2,10 +2,8 @@
 
 - 前端：react
   - 状态管理：zustand
-  - i18n: i18next
 - 后端：express
   - 身份验证：access token + fresh token
-  - 支付：stripe
   - 图片上传：cloudinary
 - 数据库：MongoDB + Redis
 

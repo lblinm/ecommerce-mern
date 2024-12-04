@@ -2,19 +2,9 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { PlusCircle, Upload, Loader } from 'lucide-react'
 import { useProductStore } from '../stores/useProductStore'
-import { useTranslation } from 'react-i18next'
-const categories = [
-  'jeans',
-  't-shirts',
-  'shoes',
-  'glasses',
-  'jackets',
-  'suits',
-  'bags',
-]
+import { categories } from '../lib/constants'
 
 const CreateProductForm = () => {
-  const { t } = useTranslation()
   const [newProduct, setNewProduct] = useState({
     name: '',
     description: '',
@@ -60,16 +50,14 @@ const CreateProductForm = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}>
-      <h2 className="text-2xl font-semibold mb-6 text-emerald-300">
-        {t('create_new_product')}
-      </h2>
+      <h2 className="text-2xl font-semibold mb-6 text-emerald-300">创建商品</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label
             htmlFor="name"
             className="block text-sm font-medium text-gray-300">
-            {t('product_name')}
+            商品名称
           </label>
           <input
             type="text"
@@ -90,7 +78,7 @@ const CreateProductForm = () => {
           <label
             htmlFor="description"
             className="block text-sm font-medium text-gray-300">
-            {t('product_description')}
+            商品描述
           </label>
           <textarea
             id="description"
@@ -111,7 +99,7 @@ const CreateProductForm = () => {
           <label
             htmlFor="price"
             className="block text-sm font-medium text-gray-300">
-            {t('price')}
+            价格
           </label>
           <input
             type="number"
@@ -133,7 +121,7 @@ const CreateProductForm = () => {
           <label
             htmlFor="category"
             className="block text-sm font-medium text-gray-300">
-            {t('category')}
+            类别
           </label>
           <select
             id="category"
@@ -146,10 +134,10 @@ const CreateProductForm = () => {
 						 shadow-sm py-2 px-3 text-white focus:outline-none 
 						 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
             required>
-            <option value="">{t('select_a_category')}</option>
+            <option value="">选择商品的类别</option>
             {categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
+              <option key={category.name} value={category.name}>
+                {category.title}
               </option>
             ))}
           </select>
@@ -167,10 +155,10 @@ const CreateProductForm = () => {
             htmlFor="image"
             className="cursor-pointer bg-gray-700 py-2 px-3 border border-gray-600 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-300 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
             <Upload className="h-5 w-5 inline-block mr-2" />
-            {t('upload_image')}
+            上传商品图片
           </label>
           {newProduct.image && (
-            <span className="ml-3 text-sm text-gray-400">Image uploaded </span>
+            <span className="ml-3 text-sm text-gray-400">商品图片已上传</span>
           )}
         </div>
 
@@ -186,12 +174,12 @@ const CreateProductForm = () => {
                 className="mr-2 h-5 w-5 animate-spin"
                 aria-hidden="true"
               />
-              Loading...
+              加载中，请稍等...
             </>
           ) : (
             <>
               <PlusCircle className="mr-2 h-5 w-5" />
-              {t('create_product')}
+              创建商品
             </>
           )}
         </button>

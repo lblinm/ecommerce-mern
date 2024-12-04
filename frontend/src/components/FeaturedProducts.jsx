@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ShoppingCart, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useCartStore } from '../stores/useCartStore'
-import { useTranslation } from 'react-i18next'
 const FeaturedProducts = ({ featuredProducts }) => {
-  const { t } = useTranslation()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [itemsPerPage, setItemsPerPage] = useState(4)
 
@@ -37,7 +35,7 @@ const FeaturedProducts = ({ featuredProducts }) => {
     <div className="py-12">
       <div className="container mx-auto px-4">
         <h2 className="text-center text-5xl sm:text-6xl font-bold text-emerald-400 mb-4">
-          {t('featured')}
+          特色商品
         </h2>
         <div className="relative">
           <div className="overflow-hidden">
@@ -72,7 +70,7 @@ const FeaturedProducts = ({ featuredProducts }) => {
                         className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2 px-4 rounded transition-colors duration-300 
 												flex items-center justify-center">
                         <ShoppingCart className="w-5 h-5 mr-2" />
-                        {t('add_to_cart')}
+                        加入购物车
                       </button>
                     </div>
                   </div>

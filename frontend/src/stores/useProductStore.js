@@ -40,7 +40,7 @@ export const useProductStore = create((set) => ({
 			toast.error(error.response.data.error || "Failed to fetch products")
 		}
 	},
-	// 添加搜索功能
+	// 搜索
 	fetchProductsByKeyword: async (keyword) => {
 		set({ loading: true })
 		try {
@@ -51,17 +51,39 @@ export const useProductStore = create((set) => ({
 			toast.error(error.response?.data?.error || "Failed to fetch products")
 		}
 	},
+	// 更新
+	updateProduct: async (updatedProduct) => {
+		set({ loading: true })
+		try {
+			const res = await axios.put(`/products/${updatedProduct._id}`, updatedProduct)
+			const newProduct = res.data.product
+			set((prevProducts) => ({
+				products: prevProducts.products.map((product) =>
+					product._id === newProduct._id ? newProduct : product
+				),
+				loading: false,
+			}))
+			toast.success("更新商品信息成功！")
+		} catch (error) {
+			set({ loading: false })
+			toast.error(error.response.data.error || "更新商品信息失败")
+		}
+	},
+
 	deleteProduct: async (productId) => {
 		set({ loading: true })
 		try {
+			const toastId = toast.loading("正在删除该商品，请稍等")
 			await axios.delete(`/products/${productId}`)
 			set((prevProducts) => ({
 				products: prevProducts.products.filter((product) => product._id !== productId),
 				loading: false,
 			}))
+			toast.dismiss(toastId)
+			toast.success("商品删除成功！")
 		} catch (error) {
 			set({ loading: false })
-			toast.error(error.response.data.error || "Failed to delete product")
+			toast.error(error.response.data.error || "商品删除失败")
 		}
 	},
 	toggleFeaturedProduct: async (productId) => {
