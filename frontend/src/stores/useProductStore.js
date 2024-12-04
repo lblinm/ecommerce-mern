@@ -15,6 +15,7 @@ export const useProductStore = create((set) => ({
 				products: [...prevState.products, res.data],
 				loading: false,
 			}))
+			toast.success('创建商品成功')
 		} catch (error) {
 			toast.error(error.response.data.error)
 			set({ loading: false })
