@@ -14,7 +14,7 @@ export const getCartProducts = async (req, res) => {
 		res.json(cartItems)
 	} catch (error) {
 		console.log("Error in getCartProducts controller", error.message)
-		res.status(500).json({ message: "Server error", error: error.message })
+		res.status(500).json({ message: "获取购物车物品失败", error: error.message })
 	}
 }
 
@@ -34,7 +34,7 @@ export const addToCart = async (req, res) => {
 		res.json(user.cartItems)
 	} catch (error) {
 		console.log("Error in addToCart controller", error.message)
-		res.status(500).json({ message: "Server error", error: error.message })
+		res.status(500).json({ message: "添加到购物车失败", error: error.message })
 	}
 }
 
@@ -45,13 +45,13 @@ export const removeAllFromCart = async (req, res) => {
 		if (!productId) {
 			user.cartItems = []
 		} else {
-			user.cartItems = user.cartItems.filter((item) => item.id !== productId)
+			user.cartItems = user.cartItems.filter((item) => item._id !== productId)
 		}
 		// await user.save();
-		await User.findByIdAndUpdate(user._id, { cartItem: user.cartItem })
+		await User.findByIdAndUpdate(user._id, { cartItems: user.cartItems })
 		res.json(user.cartItems)
 	} catch (error) {
-		res.status(500).json({ message: "Server error", error: error.message })
+		res.status(500).json({ message: "移除购物车物品失败", error: error.message })
 	}
 }
 
@@ -77,6 +77,6 @@ export const updateQuantity = async (req, res) => {
 		}
 	} catch (error) {
 		console.log("Error in updateQuantity controller", error.message)
-		res.status(500).json({ message: "Server error", error: error.message })
+		res.status(500).json({ message: "更新购物车物品数量失败", error: error.message })
 	}
 }

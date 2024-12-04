@@ -36,13 +36,13 @@ export const createCheckoutSession = async (req, res) => {
 		const newOrder = new Order(tmpOrder)
 		await newOrder.save()
 
-		if (totalAmount >= 20000) {
+		if (totalAmount >= 500) {
 			await createNewCoupon(req.user._id)
 		}
 		res.status(200).json({ orderId: newOrder._id, coupon: coupon?._id })
 	} catch (error) {
 		console.error("Error processing checkout:", error)
-		res.status(500).json({ message: "Error processing checkout", error: error.message })
+		res.status(500).json({ message: "创建订单失败", error: error.message })
 	}
 }
 
@@ -50,10 +50,8 @@ export const checkoutSuccess = async (req, res) => {
 	try {
 		const { orderId, couponId } = req.body
 		if (couponId) {
-			await Coupon.findOneAndUpdate(
-				{
-					couponId
-				},
+			await Coupon.findByIdAndUpdate(
+				couponId,
 				{
 					isActive: false,
 				}
@@ -73,7 +71,7 @@ export const checkoutSuccess = async (req, res) => {
 		})
 	} catch (error) {
 		console.error("Error processing successful checkout:", error)
-		res.status(500).json({ message: "Error processing successful checkout", error: error.message })
+		res.status(500).json({ message: "处理已支付订单失败", error: error.message })
 	}
 }
 
