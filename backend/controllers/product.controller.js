@@ -8,7 +8,7 @@ export const getAllProducts = async (req, res) => {
 		res.json({ products })
 	} catch (error) {
 		console.log("Error in getAllProducts controller", error.message)
-		res.status(500).json({ message: "Server error", error: error.message })
+		res.status(500).json({ message: "获取所有商品失败", error: error.message })
 	}
 }
 
@@ -25,7 +25,7 @@ export const getFeaturedProducts = async (req, res) => {
 		featuredProducts = await Product.find({ isFeatured: true }).lean()
 
 		if (!featuredProducts) {
-			return res.status(404).json({ message: "No featured products found" })
+			return res.status(404).json({ message: "未找到特色商品" })
 		}
 
 		// store in redis for future quick access
@@ -35,7 +35,7 @@ export const getFeaturedProducts = async (req, res) => {
 		res.json(featuredProducts)
 	} catch (error) {
 		console.log("Error in getFeaturedProducts controller", error.message)
-		res.status(500).json({ message: "Server error", error: error.message })
+		res.status(500).json({ message: "获取特色商品失败", error: error.message })
 	}
 }
 
@@ -60,7 +60,7 @@ export const createProduct = async (req, res) => {
 		res.status(201).json(product)
 	} catch (error) {
 		console.log("Error in createProduct controller", error.message)
-		res.status(500).json({ message: "Server error", error: error.message })
+		res.status(500).json({ message: "创建商品失败", error: error.message })
 	}
 }
 
@@ -87,7 +87,7 @@ export const deleteProduct = async (req, res) => {
 		res.json({ message: "Product deleted successfully" })
 	} catch (error) {
 		console.log("Error in deleteProduct controller", error.message)
-		res.status(500).json({ message: "Server error", error: error.message })
+		res.status(500).json({ message: "删除商品失败", error: error.message })
 	}
 }
 
@@ -147,7 +147,7 @@ export const getRecommendedProducts = async (req, res) => {
 		res.json(products)
 	} catch (error) {
 		console.log("Error in getRecommendedProducts controller", error.message)
-		res.status(500).json({ message: "Server error", error: error.message })
+		res.status(500).json({ message: "获取推荐商品失败", error: error.message })
 	}
 }
 
@@ -158,7 +158,7 @@ export const getProductsByCategory = async (req, res) => {
 		res.json({ products })
 	} catch (error) {
 		console.log("Error in getProductsByCategory controller", error.message)
-		res.status(500).json({ message: "Server error", error: error.message })
+		res.status(500).json({ message: "获取该类别商品失败", error: error.message })
 	}
 }
 
@@ -171,11 +171,11 @@ export const toggleFeaturedProduct = async (req, res) => {
 			await updateFeaturedProductsCache()
 			res.json(updatedProduct)
 		} else {
-			res.status(404).json({ message: "Product not found" })
+			res.status(404).json({ message: "该商品不存在" })
 		}
 	} catch (error) {
 		console.log("Error in toggleFeaturedProduct controller", error.message)
-		res.status(500).json({ message: "Server error", error: error.message })
+		res.status(500).json({ message: "调整商品是否为特色商品失败", error: error.message })
 	}
 }
 
@@ -198,7 +198,7 @@ export const searchProducts = async (req, res) => {
 		res.json({ products })
 	} catch (error) {
 		console.log("Error in searchProducts controller", error.message)
-		res.status(500).json({ message: "Server error", error: error.message })
+		res.status(500).json({ message: "搜索商品失败", error: error.message })
 	}
 }
 

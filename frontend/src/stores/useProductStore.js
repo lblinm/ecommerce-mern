@@ -26,8 +26,8 @@ export const useProductStore = create((set) => ({
 			const response = await axios.get("/products")
 			set({ products: response.data.products, loading: false })
 		} catch (error) {
-			set({ error: "Failed to fetch products", loading: false })
-			toast.error(error.response.data.error || "Failed to fetch products")
+			set({ error: "获取所有商品失败", loading: false })
+			toast.error(error.response.data.error || "获取所有商品失败")
 		}
 	},
 	fetchProductsByCategory: async (category) => {
@@ -36,8 +36,8 @@ export const useProductStore = create((set) => ({
 			const response = await axios.get(`/products/category/${category}`)
 			set({ products: response.data.products, loading: false })
 		} catch (error) {
-			set({ error: "Failed to fetch products", loading: false })
-			toast.error(error.response.data.error || "Failed to fetch products")
+			set({ error: "获取该分类商品失败", loading: false })
+			toast.error(error.response.data.error || "获取该分类商品失败")
 		}
 	},
 	// 搜索
@@ -47,8 +47,8 @@ export const useProductStore = create((set) => ({
 			const response = await axios.get(`/products/search?keyword=${keyword}`)
 			set({ products: response.data.products, loading: false })
 		} catch (error) {
-			set({ error: "Failed to fetch products", loading: false })
-			toast.error(error.response?.data?.error || "Failed to fetch products")
+			set({ error: "搜索商品失败", loading: false })
+			toast.error(error.response?.data?.error || "搜索商品失败")
 		}
 	},
 	// 更新
@@ -99,7 +99,7 @@ export const useProductStore = create((set) => ({
 			}))
 		} catch (error) {
 			set({ loading: false })
-			toast.error(error.response.data.error || "Failed to update product")
+			toast.error(error.response.data.error || "调整商品是否为特色商品失败")
 		}
 	},
 	fetchFeaturedProducts: async () => {
@@ -108,7 +108,7 @@ export const useProductStore = create((set) => ({
 			const response = await axios.get("/products/featured")
 			set({ products: response.data, loading: false })
 		} catch (error) {
-			set({ error: "Failed to fetch products", loading: false })
+			set({ error: "获取特色商品失败", loading: false })
 			console.log("Error fetching featured products:", error)
 		}
 	},
