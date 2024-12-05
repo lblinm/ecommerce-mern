@@ -6,10 +6,10 @@ export const useUserStore = create((set, get) => ({
 	user: null,
 	loading: false,
 	checkingAuth: true,
-
+	// 用户注册
 	signup: async ({ name, email, password, confirmPassword }) => {
 		set({ loading: true })
-
+		// 判断两次密码输入是否一致
 		if (password !== confirmPassword) {
 			set({ loading: false })
 			return toast.error("两次输入的密码不同")
@@ -18,11 +18,13 @@ export const useUserStore = create((set, get) => ({
 		try {
 			const res = await axios.post("/auth/signup", { name, email, password })
 			set({ user: res.data, loading: false })
+			toast.success('注册成功')
 		} catch (error) {
 			set({ loading: false })
 			toast.error(error.response.data.message || "账户注册失败")
 		}
 	},
+	// 用户登录
 	login: async (email, password) => {
 		set({ loading: true })
 
@@ -30,21 +32,23 @@ export const useUserStore = create((set, get) => ({
 			const res = await axios.post("/auth/login", { email, password })
 
 			set({ user: res.data, loading: false })
+			toast.success('登录成功')
 		} catch (error) {
 			set({ loading: false })
 			toast.error(error.response.data.message || "账户登录失败")
 		}
 	},
-
+	// 用户登出
 	logout: async () => {
 		try {
 			await axios.post("/auth/logout")
 			set({ user: null })
+			toast.success('登出成功')
 		} catch (error) {
 			toast.error(error.response?.data?.message || "账户登出失败")
 		}
 	},
-
+	// 获取用户资料
 	checkAuth: async () => {
 		set({ checkingAuth: true })
 		try {
@@ -55,7 +59,7 @@ export const useUserStore = create((set, get) => ({
 			set({ checkingAuth: false, user: null })
 		}
 	},
-
+	// 获取用户 refreshToken
 	refreshToken: async () => {
 		// Prevent multiple simultaneous refresh attempts
 		if (get().checkingAuth) return
@@ -72,10 +76,9 @@ export const useUserStore = create((set, get) => ({
 	},
 }))
 
-// TODO: Implement the axios interceptors for refreshing access token
 
-// Axios interceptor for token refresh
-let refreshPromise = null
+// Axios拦截器，用于处理Token刷新
+let refreshPromise = null  // 用于保存刷新Token的Promise，以避免重复刷新
 
 axios.interceptors.response.use(
 	(response) => response,
@@ -85,20 +88,20 @@ axios.interceptors.response.use(
 			originalRequest._retry = true
 
 			try {
-				// If a refresh is already in progress, wait for it to complete
+				// 如果刷新Token的操作已经在进行中，等待完成
 				if (refreshPromise) {
 					await refreshPromise
 					return axios(originalRequest)
 				}
 
-				// Start a new refresh process
+				// 开始新的Token刷新操作
 				refreshPromise = useUserStore.getState().refreshToken()
 				await refreshPromise
 				refreshPromise = null
 
 				return axios(originalRequest)
 			} catch (refreshError) {
-				// If refresh fails, redirect to login or handle as needed
+				// 如果刷新Token失败，执行登出操作或其他错误处理
 				useUserStore.getState().logout()
 				return Promise.reject(refreshError)
 			}

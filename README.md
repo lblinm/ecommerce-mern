@@ -35,10 +35,9 @@
 
 ## 文件说明
 
-```txt
+```r
 ecommerce-mern
 ├── Dockerfile                          # Docker构建文件，定义容器化配置
-├── LICENSE                             # 开源协议
 ├── README.md                           # 项目简介
 ├── backend                             # 后端代码目录
 │   ├── controllers                     # 处理具体业务逻辑
@@ -125,7 +124,6 @@ ecommerce-mern
 ├── nginx.conf                          # Nginx 配置文件
 ├── package-lock.json                   # 后端 npm 锁文件
 └── package.json                        # 后端 npm 配置文件
-
 ```
 
 ## 本地运行

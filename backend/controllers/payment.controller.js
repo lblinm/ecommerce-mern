@@ -82,7 +82,7 @@ async function createNewCoupon (userId) {
 	const newCoupon = new Coupon({
 		code: "GIFT" + Math.random().toString(36).substring(2, 8).toUpperCase(),
 		discountPercentage: 10,
-		expirationDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
+		expirationDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 天有效期
 		userId: userId,
 	})
 
