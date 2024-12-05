@@ -6,11 +6,23 @@ import Coupon from '../models/coupon.model.js'
 import Order from '../models/order.model.js'
 dotenv.config()
 
+// 用户
 const users = [
-  { name: 'admin', email: 'root@123.com', password: 'root123', role: 'admin' },
-  { name: 'testcust', email: 'testcust@123.com', password: 'testcust', role: 'customer' }
+  {
+    name: 'admin',
+    email: 'root@123.com',
+    password: 'root123',
+    role: 'admin'
+  },
+  {
+    name: 'testcust',
+    email: 'testcust@123.com',
+    password: 'testcust',
+    role: 'customer'
+  }
 ]
 
+// 商品
 const products = [
   {
     name: '联想Thinkbook 14锐龙版',
@@ -272,6 +284,7 @@ const products = [
   },
 ]
 
+// 优惠券
 const coupons = [
   {
     code: "111111",
@@ -280,6 +293,7 @@ const coupons = [
   },
 ]
 
+// 连接数据库
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB Connected'))
   .catch((err) => {
@@ -289,22 +303,28 @@ mongoose.connect(process.env.MONGO_URI)
 
 const seedData = async () => {
   try {
+    // 删除数据库中的数据
     await User.deleteMany()
     await Product.deleteMany()
     await Coupon.deleteMany()
     await Order.deleteMany()
 
+    // 填充用户数据
     await User.create(users)
     console.log('Seed Users Data Success!')
+
+    // 填充商品数据
     await Product.create(products)
     console.log('Seed Products Data Success!')
 
-    const admin = await User.findOne(
-      { name: 'admin' },
+    // 获取顾客id（优惠券数据需要）
+    const couponUser = await User.findOne(
+      { name: 'testcust' },
       { projection: { _id: 1 } }
     )
+    // 填充优惠券数据（属于顾客）
     const completedCoupons = coupons.map(item => ({
-      ...item, userId: admin._id
+      ...item, userId: couponUser._id
     }))
     await Coupon.create(completedCoupons)
     console.log('Seed Coupons Data Success!')
